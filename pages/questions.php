@@ -1,17 +1,20 @@
 <?php
 
-    // load the database
     $database = connectToDB();
 
 
-    // Get all the questions from the database
     $sql = "SELECT * FROM questions";
     $query = $database->prepare($sql);
     $query->execute();
     $questions = $query->fetchAll();
+      
 
+
+    require 'parts/header.php';
 
 ?>
+<div class="container my-5 mx-auto" style="max-width: 700px;">
+<h1 class="h1 mb-4 text-center">Customer Service Feedback Form</h1>
 <form
     method="POST"
     action="/form/submit">
@@ -28,7 +31,7 @@
                     class="form-control" 
                     id="name" 
                     name="name" 
-                    placeholder="Enter your name"
+                    value="<?= $_SESSION["user"]["name"] ?>"disabled
                     >
             </div>
             <div class="col">
@@ -38,7 +41,7 @@
                     class="form-control" 
                     id="email" 
                     name="email" 
-                    placeholder="Enter your email"
+                    value="<?= $_SESSION["user"]['email']; ?>"disabled
                     >
             </div>
         </div>
@@ -117,3 +120,11 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
+
+    <div class="text-center mt-4">
+        <a href="/results" class="btn btn-inverse">View Results</a> 
+        <a href="/logout" class="btn btn-inverse">logout</a> 
+        </div>
+<?php
+
+    require 'parts/footer.php';

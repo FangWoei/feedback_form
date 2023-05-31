@@ -9,19 +9,6 @@
     $query->execute();
     $questions = $query->fetchAll();
 
-    // get the name & email from the POST data
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-
-    /* 
-        do error checking
-        - make sure the name & email fields are not empty
-        - make sure all the questions are answered
-    */
-    if(empty($name) || empty($email)){
-        $error = "Please fill all!";
-    }
-
 
     // loop through all the questions to make sure all the answers are set
     foreach ( $questions as $question ) {
@@ -34,7 +21,7 @@
     // if $error is set, redirect to home page
     if ( isset( $error ) ) {
         $_SESSION['error'] = $error;
-        header( 'Location: /' );
+        header( 'Location: /questions' );
         exit;
     }
 
@@ -42,16 +29,15 @@
     foreach ( $questions as $question ) {
         // sql recipe
     
-        $sql = "INSERT INTO results ( name, email, question_id, answer ) 
-        VALUES ( :name, :email, :question_id, :answer )";
+        $sql = "INSERT INTO results (question_id, answer, user_id ) 
+        VALUES (:question_id, :answer, :user_id)";
         // prepare
         $query = $database->prepare( $sql );
         // execute
         $query->execute([
-            'name' => $name,
-            'email' => $email,
             'question_id' => $question['id'],
-            'answer' => $_POST["q" . $question['id']]
+            'answer' => $_POST["q" . $question['id']],
+            'user_id' => $_SESSION['user']['id']
         ]);
         
     }
@@ -60,6 +46,6 @@
         $_SESSION["success"] = "Submit";
         
         // redirect to home page
-        header("Location: /");
+        header("Location: /questions");
         exit;
 

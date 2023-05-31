@@ -13,3 +13,6 @@
     );
     return $database;
 }
+function isUserLoggedIn() {
+        return isset( $_SESSION['user'] ) ? true : false;
+    }

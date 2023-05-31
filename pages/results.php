@@ -10,8 +10,17 @@
     $questions = $query->fetchAll();
 
     // load all the results
-    $sql = "SELECT * FROM results";
-    $query = $database->prepare($sql);
+    // $sql = "SELECT * FROM results";
+    // $query = $database->prepare($sql);
+    // $query->execute();
+    // $results = $query->fetchAll();
+    $sql = "SELECT results.*,
+    users.name,
+    users.email
+    FROM results
+    JOIN users
+    ON results.user_id = users.id";
+    $query = $database->prepare( $sql );
     $query->execute();
     $results = $query->fetchAll();
 
@@ -35,8 +44,8 @@
             <?php if ( isset( $results ) ) : ?>
                 <?php foreach( $results as $result ) : ?>
                     <tr>
-                        <td><?php echo $result['name']; ?></td>
-                        <td><?php echo $result['email']; ?></td>
+                        <td><?= $result['name'] ?></td>
+                        <td><?= $result['email'] ?></td>
                         <td>
                             <?php 
                             // $sql = "SELECT * FROM questions WHERE id = :id";
@@ -69,7 +78,7 @@
         </table>
     </div>
     <div class="text-center">
-        <a href="/" class="btn btn-link link-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back to Home</a>
+        <a href="/questions" class="btn btn-link link-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back to Home</a>
     </div>
 </div>
 <?php
