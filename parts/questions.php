@@ -1,38 +1,32 @@
 <?php
 
+    // load the database
     $database = connectToDB();
 
-
-    $sql = "SELECT * FROM questions";
+    // Get all the questions from the database
+    $sql = 'SELECT * FROM questions';
     $query = $database->prepare($sql);
     $query->execute();
     $questions = $query->fetchAll();
-      
-
-
-    require 'parts/header.php';
 
 ?>
-<div class="container my-5 mx-auto" style="max-width: 700px;">
-<h1 class="h1 mb-4 text-center">Customer Service Feedback Form</h1>
 <form
     method="POST"
     action="/form/submit">
 
     <!-- Name & Email fields -->
     <div class="mb-4">
-    <?php require "parts/message_error.php"; ?>
-    <?php require "parts/message_success.php"; ?>
         <div class="row">
             <div class="col">
                 <label for="name" class="form-label fw-bold">Name</label>
                 <input 
                     type="text" 
-                    class="form-control" 
+                    class="form-control disabled" 
                     id="name" 
                     name="name" 
-                    value="<?= $_SESSION["user"]["name"] ?>"disabled
-                    >
+                    value='<?= $_SESSION['user']['name']; ?>'
+                    disabled
+                />
             </div>
             <div class="col">
                 <label for="email" class="form-label fw-bold">Email</label>
@@ -41,7 +35,8 @@
                     class="form-control" 
                     id="email" 
                     name="email" 
-                    value="<?= $_SESSION["user"]['email']; ?>"disabled
+                    value='<?= $_SESSION['user']['email']; ?>'
+                    disabled
                     >
             </div>
         </div>
@@ -120,11 +115,3 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
-
-    <div class="text-center mt-4">
-        <a href="/results" class="btn btn-inverse">View Results</a> 
-        <a href="/logout" class="btn btn-inverse">logout</a> 
-        </div>
-<?php
-
-    require 'parts/footer.php';

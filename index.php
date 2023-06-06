@@ -24,9 +24,6 @@
             case 'form/submit':
                 require 'includes/form/submit.php';
                 break;
-            case 'questions':
-                require 'pages/questions.php';
-                break;
             case 'results':
                 require 'pages/results.php';
                 break;

@@ -1,25 +1,22 @@
 <?php
 
     // load database
-  $database = connectToDB();
+    $database = connectToDB();
 
     // load all the questions
     $sql = "SELECT * FROM questions";
-    $query = $database->prepare($sql);
+    $query = $database->prepare( $sql );
     $query->execute();
     $questions = $query->fetchAll();
 
     // load all the results
-    // $sql = "SELECT * FROM results";
-    // $query = $database->prepare($sql);
-    // $query->execute();
-    // $results = $query->fetchAll();
-    $sql = "SELECT results.*,
+    $sql = "SELECT 
+    results.*,
     users.name,
     users.email
     FROM results
     JOIN users
-    ON results.user_id = users.id";
+    ON results.user_id = users.id"; // link foreign key with primary key
     $query = $database->prepare( $sql );
     $query->execute();
     $results = $query->fetchAll();
@@ -44,32 +41,21 @@
             <?php if ( isset( $results ) ) : ?>
                 <?php foreach( $results as $result ) : ?>
                     <tr>
-                        <td><?= $result['name'] ?></td>
-                        <td><?= $result['email'] ?></td>
+                        <td>
+                            <?php echo $result['name']; ?></td>
+                        <td><?php echo $result['email']; ?></td>
                         <td>
                             <?php 
-                            // $sql = "SELECT * FROM questions WHERE id = :id";
-                            // $query = $database->prepare($sql);
-                            // $query->execute([
-                            //     'id' => $result['question_id']
-                            // ]);
-                            // $questions = $query->fetch();
-                            // echo $question['question'];
                                 // use the question_id in $result to find the exact question in the questions table and echo it here
-                            foreach ($questions as $question) {
-                                if ($question['id'] == $result['question_id']  ) {
+                                foreach ($questions as $question) {
+                                    if ($question ['id'] == $result['question_id'])
                                     echo $question['question'];
-                                }
-                            }
-                            ?>
-                            
-
+                                } 
+                                ?>
                         </td>
                         <td>
                             <!-- echo the answer here -->
-                            <?php
-                                echo $result['answer'];
-                            ?>
+                            <?= $result['answer']; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -78,7 +64,7 @@
         </table>
     </div>
     <div class="text-center">
-        <a href="/questions" class="btn btn-link link-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back to Home</a>
+        <a href="/" class="btn btn-link link-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back to Home</a>
     </div>
 </div>
 <?php

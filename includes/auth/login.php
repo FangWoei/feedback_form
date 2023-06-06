@@ -8,7 +8,12 @@
     
     if ( empty($email) || empty($password) ) {
         $error = 'PLease fill all the things (T_T)';
-    } else {
+    } 
+    if ( isset( $error ) ) {
+        $_SESSION['error'] = $error;
+        header("Location: /login");
+        exit;
+    }
         $sql = "SELECT * FROM users where email = :email";
         $query = $database->prepare( $sql );
         $query->execute([
@@ -21,16 +26,9 @@
             if ( password_verify( $password, $user["password"] ) ) {
                 $_SESSION["user"] = $user;
 
-                header("Location: /questions");
+                header("Location: /");
                 exit;
             } else {
                 $error = "Something Wrong !!!!!! (*\O/*) ";
             }
         }
-
-    }
-    if ( isset( $error ) ) {
-        $_SESSION['error'] = $error;
-        header("Location: /login");
-        exit;
-    }

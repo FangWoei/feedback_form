@@ -21,7 +21,7 @@
     // if $error is set, redirect to home page
     if ( isset( $error ) ) {
         $_SESSION['error'] = $error;
-        header( 'Location: /questions' );
+        header( 'Location: /' );
         exit;
     }
 
@@ -46,6 +46,6 @@
         $_SESSION["success"] = "Submit";
         
         // redirect to home page
-        header("Location: /questions");
+        header("Location: /");
         exit;
 
